@@ -1,0 +1,27 @@
+kind = "web"
+previewPath = "/"
+title = "Picsrest"
+version = "1.0.0"
+id = "artifacts/picsrest"
+router = "path"
+
+[[services]]
+name = "web"
+paths = [ "/" ]
+localPort = 24484
+
+[services.development]
+run = "pnpm --filter @workspace/picsrest run dev"
+
+[services.production]
+build = [ "pnpm", "--filter", "@workspace/picsrest", "run", "build" ]
+serve = "static"
+publicDir = "artifacts/picsrest/out"
+
+[[services.production.rewrites]]
+from = "/*"
+to = "/index.html"
+
+[services.env]
+PORT = "24484"
+BASE_PATH = "/"
